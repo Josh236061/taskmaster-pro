@@ -13,11 +13,8 @@ var createTask = function(taskText, taskDate, taskList) {
   // append span and p element to parent li
   taskLi.append(taskSpan, taskP);
 
-<<<<<<< HEAD
-=======
   // check due date
   auditTask(taskLi);
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
 
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
@@ -38,10 +35,6 @@ var loadTasks = function() {
 
   // loop over object properties
   $.each(tasks, function(list, arr) {
-<<<<<<< HEAD
-    console.log(list, arr);
-=======
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
     // then loop over sub-array
     arr.forEach(function(task) {
       createTask(task.text, task.date, list);
@@ -53,24 +46,15 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
-<<<<<<< HEAD
-
-
-=======
 var auditTask = function(taskEl) {
-
   // get date from task element
   var date = $(taskEl)
     .find("span")
     .text()
     .trim();
 
-  console.log(date);
-
   // convert to moment object at 5:00pm
   var time = moment(date, "L").set("hour", 17);
-
-  console.log(time);
 
   // remove any old classes from element
   $(taskEl).removeClass("list-group-item-warning list-group-item-danger");
@@ -78,8 +62,7 @@ var auditTask = function(taskEl) {
   // apply new class if task is near/over due date
   if (moment().isAfter(time)) {
     $(taskEl).addClass("list-group-item-danger");
-  } 
-  else if (Math.abs(moment().diff(time, "days")) <= 2) {
+  } else if (Math.abs(moment().diff(time, "days")) <= 2) {
     $(taskEl).addClass("list-group-item-warning");
   }
 };
@@ -92,16 +75,18 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event, ui) {
-    console.log(ui);
+    $(this).addClass("dropover");
+    $(".bottom-trash").addClass("bottom-trash-drag");
   },
   deactivate: function(event, ui) {
-    console.log(ui);
+    $(this).removeClass("dropover");
+    $(".bottom-trash").removeClass("bottom-trash-drag");
   },
   over: function(event) {
-    console.log(event);
+    $(event.target).addClass("dropover-active");
   },
   out: function(event) {
-    console.log(event);
+    $(event.target).removeClass("dropover-active");
   },
   update: function() {
     var tempArr = [];
@@ -131,9 +116,6 @@ $(".card .list-group").sortable({
     // update array on tasks object and save
     tasks[arrName] = tempArr;
     saveTasks();
-  },
-  stop: function(event) {
-    $(this).removeClass("dropover");
   }
 });
 
@@ -144,12 +126,14 @@ $("#trash").droppable({
   drop: function(event, ui) {
     // remove dragged element from the dom
     ui.draggable.remove();
+    $(".bottom-trash").removeClass("bottom-trash-active");
   },
   over: function(event, ui) {
     console.log(ui);
+    $(".bottom-trash").addClass("bottom-trash-active");
   },
   out: function(event, ui) {
-    console.log(ui);
+    $(".bottom-trash").removeClass("bottom-trash-active");
   }
 });
 
@@ -158,7 +142,6 @@ $("#modalDueDate").datepicker({
   // force user to select a future date
   minDate: 1
 });
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
@@ -173,7 +156,7 @@ $("#task-form-modal").on("shown.bs.modal", function() {
 });
 
 // save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function() {
+$("#task-form-modal .btn-save").click(function() {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
@@ -194,8 +177,6 @@ $("#task-form-modal .btn-primary").click(function() {
   }
 });
 
-<<<<<<< HEAD
-=======
 // task text was clicked
 $(".list-group").on("click", "p", function() {
   // get current text of p element
@@ -290,25 +271,22 @@ $(".list-group").on("change", "input[type='text']", function() {
     auditTask($(taskSpan).closest(".list-group-item"));
 });
 
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
 // remove all tasks
 $("#remove-tasks").on("click", function() {
   for (var key in tasks) {
     tasks[key].length = 0;
     $("#list-" + key).empty();
   }
-<<<<<<< HEAD
-=======
   console.log(tasks);
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
   saveTasks();
 });
 
 // load tasks for the first time
-<<<<<<< HEAD
 loadTasks();
 
-
-=======
-loadTasks();
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
+// audit task due dates every 30 minutes
+setInterval(function() {
+  $(".card .list-group-item").each(function() {
+    auditTask($(this));
+  });
+}, 1800000);
