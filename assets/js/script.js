@@ -284,17 +284,9 @@ $("#remove-tasks").on("click", function() {
 // load tasks for the first time
 loadTasks();
 
-<<<<<<< HEAD
-setInterval(function() {
-  $(".card .list-group-item").each(function(index, el) {
-    auditTask(el);
-  });
-}, 5000);
-=======
 // audit task due dates every 30 minutes
 setInterval(function() {
   $(".card .list-group-item").each(function() {
     auditTask($(this));
   });
 }, 1800000);
->>>>>>> feature/touch-ups
