@@ -13,11 +13,8 @@ var createTask = function(taskText, taskDate, taskList) {
   // append span and p element to parent li
   taskLi.append(taskSpan, taskP);
 
-<<<<<<< HEAD
-=======
   // check due date
   auditTask(taskLi);
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
 
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
@@ -38,10 +35,6 @@ var loadTasks = function() {
 
   // loop over object properties
   $.each(tasks, function(list, arr) {
-<<<<<<< HEAD
-    console.log(list, arr);
-=======
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
     // then loop over sub-array
     arr.forEach(function(task) {
       createTask(task.text, task.date, list);
@@ -53,10 +46,6 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
-<<<<<<< HEAD
-
-
-=======
 var auditTask = function(taskEl) {
 
   // get date from task element
@@ -158,7 +147,6 @@ $("#modalDueDate").datepicker({
   // force user to select a future date
   minDate: 1
 });
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
@@ -194,8 +182,6 @@ $("#task-form-modal .btn-primary").click(function() {
   }
 });
 
-<<<<<<< HEAD
-=======
 // task text was clicked
 $(".list-group").on("click", "p", function() {
   // get current text of p element
@@ -290,25 +276,21 @@ $(".list-group").on("change", "input[type='text']", function() {
     auditTask($(taskSpan).closest(".list-group-item"));
 });
 
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
 // remove all tasks
 $("#remove-tasks").on("click", function() {
   for (var key in tasks) {
     tasks[key].length = 0;
     $("#list-" + key).empty();
   }
-<<<<<<< HEAD
-=======
   console.log(tasks);
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
   saveTasks();
 });
 
 // load tasks for the first time
-<<<<<<< HEAD
 loadTasks();
 
-
-=======
-loadTasks();
->>>>>>> 0e8dc91dae6161d6124d9fa8a995f099d5f7e20c
+setInterval(function() {
+  $(".card .list-group-item").each(function(index, el) {
+    auditTask(el);
+  });
+}, 5000);
